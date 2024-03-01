@@ -1,0 +1,24 @@
+parameter
+    (pair (pair (address %administrator)
+                (pair (nat %all_tokens) (big_map %ledger (pair address nat) nat)))
+          (pair (pair (unit %version_20200910_tzip_93e5415e_contract)
+                      (big_map %operators
+                         (pair (address %owner) (pair (address %operator) (nat %token_id)))
+                         unit))
+                (pair (bool %paused)
+                      (big_map %tokens
+                         nat
+                         (pair (nat %token_id)
+                               (pair (string %symbol)
+                                     (pair (string %name) (pair (nat %decimals) (map %extras string string))))))))) ;
+storage unit;
+code
+ {
+    CAR ; # Get parameter
+    CAR ; # Get the pair (admin , _)
+    CDR ; # Get the pair (all_token, ledger)
+    CDR ; # Get %ledger
+    PUSH (pair address nat) (Pair "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb" 0);
+    GET ; # Get the value in the ledger at the above key
+    FAILWITH
+ };
